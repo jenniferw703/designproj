@@ -1,0 +1,101 @@
+<div class="small-header">
+  <div class="hpanel">
+    <div class="panel-body">
+      <div id="hbreadcrumb" class="pull-right">
+        <ol class="hbreadcrumb breadcrumb">
+          <li>
+            <a [routerLink]="['/dashboard']">Dashboard</a>
+          </li>
+          <li>
+            <a [routerLink]="['/create']">Create</a>
+          </li>
+          <li class="active">
+            <span>Create a team </span>
+          </li>
+        </ol>
+      </div>
+      <h2 class="font-light m-b-xs">
+        Create a team
+      </h2>
+      <small>Good luck!</small>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="hpanel">
+
+        <div class="panel-body">
+
+          <form #teamForm="ngForm">
+
+            <div class="p-m tab-pane">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="row">
+                    <div class="form-group col-lg-12" [ngClass]="{'has-error': (v_tname.touched || v_tname.dirty) && !v_tname.valid}">
+                      <label>Team Name *</label>
+                      <span class="text-danger" *ngIf="(v_tname.touched || v_tname.dirty) && v_tname.errors?.required">
+                        <i class="fa fa-exclamation-triangle"></i> Please enter a team name</span>
+                      <span class="text-danger" *ngIf="(v_tname.touched || v_tname.dirty) && v_tname.errors?.minlength">
+                        <i class="fa fa-exclamation-triangle"></i> Please enter minimum 2 character</span>
+                      <input #v_tname="ngModel" required minlength="2" [(ngModel)]='new_team.name' type="text" class="form-control" placeholder="Be something cool"
+                        name="name">
+                    </div>
+                    <div class="form-group col-lg-6" [ngClass]="{'has-error': (v_ttoken.touched || v_ttoken.dirty) && !v_ttoken.valid}">
+                      <label>Magic Token *</label>
+                      <span class="text-danger" *ngIf="(v_ttoken.touched || v_ttoken.dirty) && v_ttoken.errors?.required">
+                        <i class="fa fa-exclamation-triangle"></i> Please enter a Magic Token</span>
+                      <input #v_ttoken="ngModel" type="text" required [(ngModel)]='new_team.magictoken' class="form-control" placeholder="Magic token"
+                        name="magictoken">
+                    </div>
+                    <div class="form-group col-lg-6" [ngClass]="{'has-error': (v_temail.touched || v_temail.dirty) && !v_temail.valid}">
+                      <label>Contact Email *</label>
+                      <span class="text-danger" *ngIf="(v_temail.touched || v_temail.dirty) && v_temail.errors?.required">
+                        <i class="fa fa-exclamation-triangle"></i> Please enter a contact email</span>
+                      <span class="text-danger" *ngIf="(v_temail.touched || v_temail.dirty) && v_temail.errors?.pattern">
+                        <i class="fa fa-exclamation-triangle"></i> Please input a valid email address</span>
+                      <input #v_temail="ngModel" required [pattern]="email_pattern" type="email" [(ngModel)]='new_team.email' class="form-control"
+                        placeholder="user@email.com" name="email">
+                    </div>
+                    <div class="form-group col-lg-6">
+                      <label>Cloud</label>
+                      <input type="text" id="" [(ngModel)]='new_team.cloud' class="form-control" placeholder="Github / Dropbox / Google Doc" name="cloud">
+                    </div>
+                    <div class="form-group col-lg-12">
+                      <label class="control-label">Interested Areas</label>
+                      <br>
+                      <div *ngFor="let area of areas" class="col-lg-3">
+                        <div class="checkbox checkbox-success checkbox-inline">
+                          <input type="checkbox" [(ngModel)]='area.value' [name]="area.tag_name">
+                          <label> {{area.tag_name}} </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12">
+                      <div class="hpanel">
+                        <label>Description</label>
+                        <textarea style="resize:none;" #v_pabs="ngModel" required minlength="20" rows="10" required maxlength="2000" id="longdes" [(ngModel)]='new_team.about'
+                                        type="text" class="form-control" placeholder=" Introduce your team"
+                                        name="about"></textarea>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="text-right m-t-xs">
+              <a class="btn btn-info" (click)="save()">Submit</a>
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

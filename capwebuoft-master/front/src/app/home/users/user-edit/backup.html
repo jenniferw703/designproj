@@ -1,0 +1,114 @@
+<div class="small-header">
+  <div class="hpanel">
+    <div class="panel-body">
+      <div id="hbreadcrumb" class="pull-right">
+        <ol class="hbreadcrumb breadcrumb">
+          <li>
+            <a [routerLink]="['/dashboard']">Dashboard</a>
+          </li>
+          <li>
+            <span>My Profile</span>
+          </li>
+          <li class="active">
+            <span>Edit</span>
+          </li>
+        </ol>
+      </div>
+      <h2 class="font-light m-b-xs">
+        Edit my profile
+      </h2>
+    </div>
+  </div>
+</div>
+
+<div class="content" *ngIf="user">
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="hpanel">
+
+        <div class="panel-body">
+
+          <form (ngSubmit)="save()" #userForm="ngForm">
+
+
+            <div class="p-m tab-pane">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="row">
+                    <div class="form-group col-lg-6" [ngClass]="{'has-error': (v_ufirst.touched || v_ufirst.dirty) && !v_ufirst.valid}">
+                      <label>First Name *</label>
+                      <span class="text-danger" *ngIf="(v_ufirst.touched || v_ufirst.dirty) && v_ufirst.errors?.required">
+                        <i class="fa fa-exclamation-triangle"></i> Please enter a your first name</span>
+                      <span class="text-danger" *ngIf="(v_ufirst.touched || v_ufirst.dirty) && v_ufirst.errors?.minlength">
+                        <i class="fa fa-exclamation-triangle"></i> Please enter minimum 2 character</span>
+                      <input #v_ufirst="ngModel" required minlength="2" [(ngModel)]='user.first' type="text" class="form-control" placeholder="Please enter a your first name"
+                             name="first">
+                    </div>
+                    <div class="form-group col-lg-6" [ngClass]="{'has-error': (v_ulast.touched || v_ulast.dirty) && !v_ulast.valid}">
+                      <label>Last Name *</label>
+                      <span class="text-danger" *ngIf="(v_ulast.touched || v_ulast.dirty) && v_ulast.errors?.required">
+                        <i class="fa fa-exclamation-triangle"></i> Please enter a your last name</span>
+                      <span class="text-danger" *ngIf="(v_ulast.touched || v_ulast.dirty) && v_ulast.errors?.minlength">
+                        <i class="fa fa-exclamation-triangle"></i> Please enter minimum 2 character</span>
+                      <input #v_ulast="ngModel" required minlength="2" [(ngModel)]='user.last' type="text" class="form-control" placeholder="Please enter a your last name"
+                             name="last">
+                    </div>
+                    <div class="form-group col-lg-6">
+                      <label>User ID</label>
+                      <input type="text" [(ngModel)]='user.uid' [readonly]="inpudisable" class="form-control" placeholder="UtorID" name="uid">
+                    </div>
+
+                    <div class="form-group col-lg-6" [ngClass]="{'has-error': (v_uemail.touched || v_uemail.dirty) && !v_uemail.valid}">
+                      <label>Contact Email *</label>
+                      <span class="text-danger" *ngIf="(v_uemail.touched || v_uemail.dirty) && v_uemail.errors?.required">
+                        <i class="fa fa-exclamation-triangle"></i> Please enter a contact email</span>
+                      <span class="text-danger" *ngIf="(v_uemail.touched || v_uemail.dirty) && v_uemail.errors?.pattern">
+                        <i class="fa fa-exclamation-triangle"></i> Please input a valid email address</span>
+                      <input #v_uemail="ngModel" required [pattern]="email_pattern" type="email" [(ngModel)]='user.email' class="form-control"
+                             placeholder="user@email.com" name="email">
+                    </div>
+                    <div class="form-group col-lg-6">
+                      <label>LinkedIn</label>
+                      <input type="url" id="" [(ngModel)]='user.linkedin' class="form-control" placeholder="LinkedIn Page" name="linkedin">
+                    </div>
+                    <div class="form-group col-lg-12">
+                      <label class="control-label">Interested Areas</label>
+                      <br>
+                      <div *ngFor="let area of user.areas" class="col-lg-3">
+                        <div class="checkbox checkbox-success checkbox-inline">
+                          <input type="checkbox" [(ngModel)]='area.value' [name]="area.tag_name">
+                          <label> {{area.tag_name}} </label>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-12">
+                      <div class="hpanel">
+                        <label>Description</label>
+                        <textarea style="resize:none;" #v_pabs="ngModel" required minlength="20" rows="10" required maxlength="2000" id="longdes" [(ngModel)]='user.about'
+                                  type="text" class="form-control" placeholder=" Introduce yourself"
+                                  name="about"></textarea>
+                      </div>
+                    </div>
+
+                    </div>
+
+
+
+                  </div>
+
+              </div>
+
+
+            </div>
+
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

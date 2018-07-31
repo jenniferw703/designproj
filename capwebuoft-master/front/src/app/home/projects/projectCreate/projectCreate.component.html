@@ -1,0 +1,126 @@
+<div class="small-header">
+  <div class="hpanel">
+    <div class="panel-body">
+      <div id="hbreadcrumb" class="pull-right">
+        <ol class="hbreadcrumb breadcrumb">
+          <li>
+            <a [routerLink]="['/dashboard']">Dashboard</a>
+          </li>
+          <li>
+            <a [routerLink]="['/create']">Create</a>
+          </li>
+          <li class="active">
+            <span>Create a Project </span>
+          </li>
+        </ol>
+      </div>
+      <h2 class="font-light m-b-xs">
+        Create a Project
+      </h2>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="hpanel">
+
+        <div class="panel-body">
+
+          <form (ngSubmit)="save()" #projectForm="ngForm">
+
+            <div class="text-center m-b-md" id="wizardControl">
+
+
+
+
+            </div>
+
+            <div class="tab-content">
+              <div *ngIf="steps==1" [ngClass]="{'active':steps==1}" class="p-m tab-pane">
+                <div class="row">
+                  <div class="col-lg-12">
+                    <div class="row">
+                      <div class="form-group col-lg-12" [ngClass]="{'has-error': (v_pname.touched || v_pname.dirty) && !v_pname.valid}">
+                        <label>Project Title *</label>
+                        <span class="text-danger" *ngIf="(v_pname.touched || v_pname.dirty) && v_pname.errors?.required">
+                          <i class="fa fa-exclamation-triangle"></i> Please enter a Project Title</span>
+                        <span class="text-danger" *ngIf="(v_pname.touched || v_pname.dirty) && v_pname.errors?.minlength">
+                          <i class="fa fa-exclamation-triangle"></i> Please enter minimum 10 character</span>
+                        <input #v_pname="ngModel" required minlength="10" [(ngModel)]='new_project.name' id='titlename' type="text" class="form-control" placeholder="Please enter a unique project title here..."
+                          name="name">
+                      </div>
+                      <div class="form-group col-lg-6">
+                        <label>Number of Members *</label>
+                        <span class="text-danger" *ngIf="sizeneeded">
+                          <i class="fa fa-exclamation-triangle"></i> Please select team size </span>
+                        <br>
+                        <div *ngFor="let number of new_project.size" class="col-lg-3">
+                          <div class="checkbox checkbox-info checkbox-inline">
+                            <input (click)="selectsize(name)" type="checkbox" [(ngModel)]='number.value' [name]="number.label">
+                            <label> {{number.label}} </label>
+                          </div>
+                        </div>
+                      </div>
+
+
+                      <div class="form-group col-lg-12" [ngClass]="{'has-error': (v_pabs.touched || v_pabs.dirty) && !v_pabs.valid}">
+                        <label>Project Abstract *</label>
+                        <span class="text-danger" *ngIf="(v_pabs.touched || v_pabs.dirty) && v_pabs.errors?.required">
+                          <i class="fa fa-exclamation-triangle"></i> Please enter a Short Description</span>
+                        <span class="text-danger" *ngIf="(v_pabs.touched || v_pabs.dirty) && v_pabs.errors?.minlength">
+                          <i class="fa fa-exclamation-triangle"></i> Please enter minimum 50 character</span>
+                        <textarea style="resize:none;" #v_pabs="ngModel" required minlength="50" id="abstract" maxlength="1000" [(ngModel)]='new_project.abs'
+                          type="text" class="form-control" placeholder="Minimin 50, Maximum 1000 characters, please enter full details in Description below"
+                          name="abs"></textarea>
+
+                      </div>
+
+                      <div class="form-group col-lg-12">
+                        <label class="control-label">Related Areas *</label>
+                        <span class="text-danger" *ngIf="areaneeded">
+                          <i class="fa fa-exclamation-triangle"></i> Please select at least one Related Area </span>
+                        <br>
+                        <div *ngFor="let area of new_project.areas" class="col-lg-3">
+                          <div class="checkbox checkbox-info checkbox-inline">
+                            <input  type="checkbox" [(ngModel)]='area.value' [name]="area.tag_name" >
+                            <label> {{area.tag_name}} </label>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div class="form-group col-lg-12" [ngClass]="{'has-error': (v_plongdes.touched || v_plongdes.dirty) && !v_plongdes.valid}">
+                        <div class="hpanel">
+                          <label>Description *</label>
+                        <span class="text-danger" *ngIf="(v_plongdes.touched || v_plongdes.dirty) && v_plongdes.errors?.required">
+                          <i class="fa fa-exclamation-triangle"></i> Please enter a Detailed Description</span>
+                        <span class="text-danger" *ngIf="(v_plongdes.touched || v_plongdes.dirty) && v_plongdes.errors?.minlength">
+                          <i class="fa fa-exclamation-triangle"></i> Please enter minimum 50 character</span>
+                          <textarea style="resize:none;" #v_plongdes="ngModel" required minlength="50" rows="10" maxlength="2000" id="longdes" [(ngModel)]='new_project.about'
+                            type="text" class="form-control" placeholder="Longer than short description! Put all the details!"
+                            name="about"></textarea>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+
+
+              <div class="text-right m-t-xs">
+                <a class="btn btn-info" [ngClass]="{'disabled':!projectForm.valid}" *ngIf="steps==1" (click)="getData()">Submit</a>
+
+              </div>
+
+            </div>
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,166 @@
+<div class="small-header transition">
+    <div class="hpanel">
+        <div class="panel-body">
+
+
+            <div id="hbreadcrumb" class="pull-right">
+                <ol class="hbreadcrumb breadcrumb">
+                    <li>
+                        <a [routerLink]="['/dashboard']">Dashboard</a>
+                    </li>
+                    <li>
+                        <span>Tables</span>
+                    </li>
+                    <li class="active">
+                        <span>Team detail</span>
+                    </li>
+                </ol>
+            </div>
+            <h2 class="font-light m-b-xs">
+                Team detail
+            </h2>
+            <!-- <button type="button" class="btn btn-default btn-sm">Request to join</button> -->
+        </div>
+    </div>
+</div>
+
+<div class="content" *ngIf="ready">
+    <div class="row">
+        <div class="col-md-12" >
+            <div class="row" *ngIf="team.members.length != 0">
+                <div *ngFor='let mem of team.members' class="col-md-3">
+                    <div class="hpanel">
+                        <div class="panel-body text-center">
+                            <!-- <img alt="logo" class="img-circle img-small" src="assets/a1.jpg"> -->
+                            <div class="m-t-sm">
+                                <strong>{{mem.user.first_name}} {{mem.user.last_name}}</strong>
+                                <p class="small">{{mem.user.email}}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="hpanel">
+                <div class="panel-body">
+
+                    <div class="pull-right" *ngIf="team">
+                        <button *ngIf="team.pk == user.team" class="btn  btn-default" data-toggle="modal" data-target="#joinTeam">
+                            <i class="fa fa-plus-square"></i> Leave</button>
+                        <button *ngIf="team.pk != user.team" class="btn  btn-default" data-toggle="modal" data-target="#leaveTeam">
+                            <i class="fa fa-plus-square"></i> Join</button>
+                        <!-- <button class="btn  btn-default">
+                            <i class="fa fa-thumbs-up"></i> Like</button> -->
+                        <!-- <button class="btn btn-success btn-xs"> Active</button> -->
+                        <button *ngIf="team.owner.pk == user.profile" class="btn btn-default " [routerLink]="['/teams', team.pk, 'edit']">
+                            <i class="fa fa-pencil"></i> Edit</button>
+                    </div>
+                    <h2 class="m-t-none">{{team.name}}</h2>
+                    <div class="m-t-xs">
+                        <p>Owner: {{team.owner.user.first_name}} {{team.owner.user.last_name}}</p>
+                    </div>
+                    <p>
+                        <span class="text-muted font-bold m-b-xs">Team focal areas</span>
+                        <br>
+                        <span style="margin-right:2%" *ngFor='let area of team.related_areas'>{{area.tag_name}}</span>
+                    </p>
+                    <div class="progress m-t-xs full progress-striped active" style="margin-top:2%">
+                        <div [ngStyle]="{'width': team.status + '%'}" aria-valuemax="100" aria-valuemin="0" aria-valuenow="25" role="progressbar"
+                            class=" progress-bar progress-bar-warning">
+                        </div>
+                    </div>
+                    <p style="margin-top:2%">
+                        {{team.about}}
+                    </p>
+
+
+
+
+                    <div class="m-t-md">
+                        <canvas id="lineOptions" height="60"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <div class="hpanel">
+
+                <div class="panel-body">
+
+                    <h4>
+                        <strong>Involved Project</strong>
+                    </h4>
+
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="project-label">{{team.project.project_name}}</div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </div>
+
+</div>
+
+
+
+<div class="modal fade" id="leaveTeam" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="color-line"></div>
+            <div class="modal-header text-center">
+                <h4 class="modal-title">JOIN THIS TEAM</h4>
+                <small class="font-bold">Please enter the team's magic token</small>
+            </div>
+            <div class="modal-body">
+                <div class="row text-center">
+                    <div class="col-sm-10">
+
+                        <input class="form-control" id="mtoken" type="text" [(ngModel)]="mtoken">
+
+                    </div>
+
+                    <div class="col-sm-2">
+                        <button (click)="joinTeam()" data-dismiss="modal" type="button" class="btn btn-warning ">Submit</button>
+                    </div>
+
+                </div>
+            </div>
+            <!-- <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div> -->
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade" id="joinTeam" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="color-line"></div>
+            <div class="modal-header text-center">
+                <h4 class="modal-title">Leave THIS TEAM</h4>
+                <small class="font-bold">Are you sure?</small>
+            </div>
+            <div class="modal-body">
+                <div class="row text-center">
+                    <div class="col-sm-12">
+                        <button (click)="leaveTeam()" data-dismiss="modal" type="button" class="btn btn-warning ">Submit</button>
+                    </div>
+
+                </div>
+            </div>
+            <!-- <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                </div> -->
+        </div>
+    </div>
+</div>

@@ -1,0 +1,323 @@
+<div class="small-header transition">
+    <div class="hpanel">
+        <div class="panel-body">
+
+
+            <div id="hbreadcrumb" class="pull-right">
+                <ol class="hbreadcrumb breadcrumb">
+                    <li>
+                        <a [routerLink]="['/dashboard']">Dashboard</a>
+                    </li>
+                    <li>
+                        <a [routerLink]="['/projects']">Projects</a>
+                    </li>
+                    <li class="active">
+                        <span>Project details</span>
+                    </li>
+                </ol>
+            </div>
+            <h2 class="font-light m-b-xs">
+                Project details
+            </h2>
+        </div>
+    </div>
+</div>
+
+<div class="content" *ngIf="!project">
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="hpanel">
+                <div class="panel-body">
+                    <button class="btn btn-static">
+                        <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...Please wait.</button>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="content" *ngIf="project">
+
+    <div class="row">
+
+        <div class="col-md-12">
+
+            <div class="hpanel">
+                <div class="panel-body">
+
+
+                    <h2 class="m-t-none">{{project.pid}}: {{project.name}}
+                        <span class="pull-right text-right text-success">
+                            {{project.liked_number}} Likes
+                            <br/>
+                            <div *ngIf="user.role=='Supervisor' && !has_sup">
+                                <a class="btn btn-success" (click)="claimProject(user.uid, project.pid)">Supervise</a>
+                            </div>
+
+                            <div data-toggle="modal" data-target="#myJoinsuc" *ngIf="user.role=='Student' && match_pid">
+                                <a class="btn btn-warning btn-outline btn-block">
+                                   Add Teams</a>
+                            </div>
+                        </span>
+                    </h2>
+
+
+
+
+                    <div class="small m-t-xs">
+                        <h5>
+                            <strong>Create by:</strong>
+                            <a [routerLink]="['/users', project.ownerid]"> {{project.owner_first_name}} {{project.owner_last_name}} ({{project.owner_role}})</a>
+                            <small>{{project.created | date:'yyyy-MM-dd HH:mm'}}</small>
+                        </h5>
+                        <h5 *ngIf="project.supervisor">
+                            <strong>Supervisor: </strong>
+                            <a [routerLink]="['/users', project.sid]">{{project.supervisor}}</a>
+                        </h5>
+                        <h5 *ngIf="project.team_member_number!=0">
+                            <strong>Members: </strong>{{project.team_member_name}}</h5>
+
+                        <br/>
+
+                        <div class="col-md-6">
+                            <small *ngIf="project.status=='Open'" class="label label-success ">OPEN</small>
+                            <small *ngIf="project.status == 'Closed'" class="label label-warning ">Closed</small>
+                            <strong>accept {{project.number_of_members}} students per group </strong>
+                        </div>
+
+                        <div class="col-md-6">
+
+                            <ng-container>
+                                <span *ngIf="like_or_not == false">
+                                    <span (click)=" like_or_not = true" (click)="like(like_or_not,currentuid, project.pid)">
+                                        <button class="btn btn-xs btn-default">
+                                            <i class="glyphicon glyphicon-heart-empty" style="color:red"></i> Like </button>
+                                    </span>
+                                </span>
+                                <span *ngIf="like_or_not == true">
+                                    <span (click)="like_or_not = false" (click)="like(like_or_not,currentuid, project.pid)">
+                                        <button class="btn btn-xs btn-default">
+                                            <i class="glyphicon glyphicon-heart" style="color:red"></i> Dislike </button>
+                                    </span>
+                                </span>
+
+                            </ng-container>
+
+                            <span *ngIf="project.liked_number != 0">
+                                <span *ngIf="project.liked_number <3">
+                                    <strong>Liked by: </strong>
+                                    <span *ngFor='let namestr of project.liked_people_name'>
+                                        <a [routerLink]="['/users', namestr.uid]">{{namestr.name}}</a>, </span>
+                                    <a [routerLink]="['/users', last_liked.uid]">
+                                        <span>{{last_liked.name}}</span>
+                                    </a>
+                                </span>
+
+
+                                <span *ngIf="project.liked_number >=3">
+                                    <ng-container>
+                                        <span *ngIf="expanded == false">
+                                            <a [routerLink]="['/users', project.liked_people_name[0].uid]">{{project.liked_people_name[0].name}}</a>,
+                                            <a [routerLink]="['/users', project.liked_people_name[1].uid]">{{project.liked_people_name[1].name}}</a> and other {{greater}} people
+                                            <span (click)="expanded = true">
+                                                <i class="fa fa-chevron-down"></i>
+                                            </span>
+                                        </span>
+                                        <span *ngIf="expanded == true">
+                                            <span *ngFor='let namestr of project.liked_people_name'>
+                                                <a [routerLink]="['/users', namestr.uid]">{{namestr.name}}, </a>
+                                            </span>
+                                            <a [routerLink]="['/users', last_liked.uid]">
+                                                <span>{{last_liked.name}}. </span>
+                                            </a>
+                                            <span (click)="expanded = false">
+                                                <i class="fa fa-chevron-up"></i>
+                                            </span>
+                                        </span>
+                                    </ng-container>
+                                    <br />
+
+                                </span>
+                            </span>
+
+                            <br/>
+                        </div>
+
+
+                    </div>
+                    <br/>
+
+                    <p>
+                        <br/> {{project.about}}
+                    </p>
+
+                    <br/>
+                    <br/>
+
+                    <div class="m-t-xs" *ngIf="project.areas.length!=0">
+
+                        <strong style="margin-right:1%">Related Areas:</strong>
+                        <span style="margin-right:1%" *ngFor='let area of project.areas'>{{area.tag_name}} </span>
+                    </div>
+
+                </div>
+            </div>
+
+
+
+            <div class="hpanel">
+
+                <div class="panel-body">
+                    <p>
+                        <strong>Discussion</strong>
+                    </p>
+                    <div class="hpanel hblue">
+
+                        <div class="panel-body">
+                            <div *ngFor='let comment of project.comments'>
+                                <div class="social-talk">
+                                    <div class="media social-profile clearfix">
+                                        <div class="media-body">
+                                            <span class="font-bold">{{comment.created_by.first_name}} {{comment.created_by.last_name}}</span>
+                                            <small class="text-muted">{{comment.created_time | date:'yyyy-MM-dd HH:mm'}}</small>
+                                            <div class="social-content">
+                                                {{comment.content}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="social-form">
+                                <form action="#" class="mt ng-untouched ng-pristine ng-valid" novalidate="">
+                                    <div class="form-group mb-0">
+                                        <label class="sr-only" for="new_comment">New comment</label>
+                                        <textarea class="form-control" id="new_comment" style="resize:none" placeholder="Your comment..." rows="3"></textarea>
+                                    </div>
+                                    <div class="btn-toolbar">
+                                        <button class="btn btn-success btn-sm ml-auto" type="submit" (click)="newcomment(project.oid, project.pid)">Post</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="hpanel">
+
+                <div class="panel-body col-md-12">
+
+                    <p>
+                        <strong>Recommended Projects
+                            <small>(Since you are looking at this project and we know what you like..)</small>
+                        </strong>
+                    </p>
+                    <div>
+                        <div class="hpanel" *ngIf="!hasreco">
+                            <div class="panel-body">
+                                <span> You need to
+                                    <button [routerLink]="['/users/create']" (click)="reload()" class="btn btn-xs btn-default">
+                                        CREATE</button> a profile first so that we can give you some recommadation based
+                                    on your interests!
+                                </span>
+                            </div>
+                        </div>
+                        <div class="hpanel" *ngIf="!likedp && hasreco">
+                            <div class="panel-body">
+                                <span> You need to
+                                    <button [routerLink]="['/projects']" (click)="reload()" class="btn btn-xs btn-default">
+                                        Like</button> some projects so we can know what you are into!</span>
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="hpanel" *ngIf="!project.recommend_roject && hasreco && likedp">
+                        <div class="panel-body">
+                            <button class="btn btn-static">
+                                <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...Please wait.</button>
+                        </div>
+                    </div>
+
+                    <div class="hpanel hblue" *ngFor='let recproject of project.recommend_roject'>
+                        <div class="panel-body">
+                            <div class="pull-right">
+                                <button [routerLink]="['/projects', recproject.pid]" (click)="reload()" class="btn btn-xs btn-default"> View</button>
+
+                                <small *ngIf="recproject.status=='Open'" class="label label-success ">OPEN</small>
+                                <small *ngIf="recproject.status == 'Closed'" class="label label-warning ">Closed</small>
+                            </div>
+                            <h4 class="m-t-none">
+                                <a [routerLink]="['/projects',recproject.pid]" (click)="reload()">{{recproject.name}}</a>
+                            </h4>
+                            <small>{{recproject.abs}}
+                            </small>
+                            <div class="m-t-md">
+                                <canvas id="lineOptions" height="10"></canvas>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+
+</div>
+
+<!--for team-->
+<div class="modal fade" id="myJoin" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="color-line"></div>
+            <div class="modal-header text-center">
+                <h4 class="modal-title">Join</h4>
+                <small *ngIf="has_profile" class="font-bold">You don't have a team yet, please join or create a team</small>
+                <small *ngIf="!has_profile" class="font-bold">Please comple your profile first!</small>
+            </div>
+            <div class="modal-body" *ngIf="has_profile">
+                <div class="row text-center">
+                    <div class="col-sm-6">
+
+                        <button [routerLink]="['/teams']" data-dismiss="modal" type="button" class="btn btn-info btn-lg">Add team</button>
+
+                    </div>
+
+                    <div class="col-sm-6">
+                        <button [routerLink]="['/teams/create']" data-dismiss="modal" type="button" class="btn btn-warning btn-lg">Create</button>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+<div class="modal fade" id="myJoinsuc" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="color-line"></div>
+            <div class="modal-header text-center">
+                <h3 style="margin-bottom:5%" class="font-bold">Please enter the team id</h3>
+                <div class="col-sm-2"></div>
+
+                    <div class="col-sm-6">
+                    <input [(ngModel)]="add_teamid" type="number" title="" required="" value="" name="password" class="form-control">
+                </div>
+                <div class="col-sm-2">
+                    <button (click)="add_new_team()" data-dismiss="modal" type="button" class="btn btn-info btn-sm">Add team</button>
+                </div>
+                <div class="col-sm-2"></div>
+
+            </div>
+        </div>
+
+    </div>
+</div>

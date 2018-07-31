@@ -1,0 +1,191 @@
+<div class="small-header transition">
+  <div class="hpanel">
+    <div class="panel-body">
+
+
+      <div id="hbreadcrumb" class="pull-right">
+        <ol class="hbreadcrumb breadcrumb">
+          <li>
+            <a [routerLink]="['/dashboard']">Dashboard</a>
+          </li>
+          <li>
+            <span>Manage</span>
+          </li>
+          <li class="active">
+            <span>My Projects</span>
+          </li>
+        </ol>
+      </div>
+      <h2 class="font-light m-b-xs">
+        My Projects
+      </h2>
+      <small>This page shows your projects and projects you like.</small>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<div class="content">
+  <ul class="nav nav-tabs">
+    <li *ngIf="role=='Supervisor'" class="">
+    <a data-toggle="tab" href="#tab-1">
+      <strong>Supervised Projects</strong>
+    </a>
+
+  </li>
+
+    <li class="active">
+      <a data-toggle="tab" href="#tab-2">
+        <strong>Your Projects</strong>
+      </a>
+    </li>
+    <li class="">
+      <a data-toggle="tab" href="#tab-3">
+        <strong>Liked Projects</strong>
+      </a>
+
+    </li>
+  </ul>
+
+
+
+  <div class="tab-content">
+    <div  id="tab-1" class="tab-pane">
+      <div  class="hpanel">
+        <div class="panel-body">
+          <!--projects-->
+          <div *ngIf="supervisedp">
+          <div class="hpanel hgreen" *ngFor='let proj of supervisedp'>
+            <div class="panel-body">
+              <div class="pull-right">
+                <button [routerLink]="['/projects', proj.pid]" class="btn btn-xs btn-default"> View</button>
+
+                <button class="btn btn-default btn-xs" [routerLink]="['/projects/projectEdit',proj.pid]">
+                  <i class="fa fa-pencil"></i> Edit</button>
+                <small *ngIf="proj?.status=='Open'" class="label label-success ">Available</small>
+                <small *ngIf="proj?.status == 'Closed'" class="label label-warning ">Closed</small>
+              </div>
+              <h3 class="m-t-none">
+                <a [routerLink]="['/projects',proj.pid]">{{proj.name}}</a>
+              </h3>
+              <small>{{proj.abs}}
+              </small>
+              <div class="m-t-md">
+                <canvas id="lineOptions" height="10"></canvas>
+              </div>
+            </div>
+          </div>
+          </div>
+
+          <div *ngIf="supervisedp.length==0">
+            <div class="hpanel hgreen">
+              <div class="panel-body">
+                <small>You are not supervising any projects yet.
+                </small>
+                <span> You can <button [routerLink]="['/projects']" class="btn btn-xs btn-default">browse</button> or <button [routerLink]="['/search']" class="btn btn-xs btn-default">search</button>to find projects you may want to supervise!</span>
+
+                <div class="m-t-md">
+                  <canvas id="lineOptions" height="10"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-2" class="tab-pane active">
+      <div class="hpanel">
+        <div class="panel-body">
+          <!--projects-->
+          <div class="row projects" *ngIf="!supervisedp">
+            <div class="hpanel">
+                <div class="panel-body">
+   					 <h3>Please wait while we are loading your projects :)</h3>
+    			</div>
+    		</div>
+    	  </div>
+          <div class="hpanel hblue" *ngFor='let proj of createdp'>
+            <div class="panel-body">
+              <div class="pull-right">
+                <button [routerLink]="['/projects', proj.pid]" class="btn btn-xs btn-default"> View</button>
+
+                <button class="btn btn-default btn-xs" [routerLink]="['/projects/projectEdit',proj.pid]">
+                  <i class="fa fa-pencil"></i> Edit</button>
+                <small *ngIf="proj?.status=='Open'" class="label label-success ">Available</small>
+                <small *ngIf="proj?.status == 'Closed'" class="label label-warning ">Closed</small>
+              </div>
+              <!--project1-->
+              <h3 class="m-t-none">
+                <a [routerLink]="['/projects',proj.pid]">{{proj.name}}</a>
+              </h3>
+              <small>{{proj.abs}}
+              </small>
+              <div class="m-t-md">
+                <canvas id="lineOptions" height="10"></canvas>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="createdp.length==0">
+            <div class="hpanel hgreen">
+              <div class="panel-body">
+                <small>You haven't created any project one.
+                </small>
+                <span> You can <button [routerLink]="['/projects/create']"  class="btn btn-xs btn-default">CREATE</button> your own projects!</span>
+                <div class="m-t-md">
+                  <canvas id="lineOptions" height="10"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tab-3" class="tab-pane">
+      <div class="hpanel">
+        <div class="panel-body">
+          <!--projects-->
+          <div class="hpanel hred" *ngFor='let proj of likedp'>
+            <div class="panel-body">
+              <div class="pull-right">
+                <small *ngIf="proj?.status=='Open'" class="label label-success ">OPEN</small>
+                <small *ngIf="proj?.status == 'Closed'" class="label label-warning ">Closed</small>
+               <button  class="btn btn-xs btn-default" (click)="like(false, proj.pid, user.uid)"><i class="glyphicon glyphicon-heart" style="color:red" ></i> Dislike </button>
+              </div>
+              <h3 class="m-t-none">
+                <a [routerLink]="['/projects',proj.pid]">{{proj.name}}</a>
+              </h3>
+              <small>{{proj.abs}}
+              </small>
+              <div class="m-t-md">
+                <canvas id="lineOptions" height="10"></canvas>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="likedp.length==0">
+            <div class="hpanel hgreen">
+              <div class="panel-body">
+                <small>You haven't liked any project.
+                </small>
+                <span> You can <button [routerLink]="['/projects']"  class="btn btn-xs btn-default">browse</button> or <button [routerLink]="['/search']"  class="btn btn-xs btn-default">search</button>to find projects you like!</span>
+                <div class="m-t-md">
+                  <canvas id="lineOptions" height="10"></canvas>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+
+
+  </div>
+</div>

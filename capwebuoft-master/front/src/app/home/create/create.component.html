@@ -1,0 +1,68 @@
+<!-- <li>
+  <a [routerLink]="['/teams/create']">New Team</a>
+</li>
+<li>
+  <a [routerLink]="['/projects/create']">New Project</a>
+</li> -->
+<div class="small-header">
+  <div class="hpanel">
+    <div class="panel-body">
+      <div id="hbreadcrumb" class="pull-right">
+        <ol class="hbreadcrumb breadcrumb">
+          <li>
+            <a [routerLink]="['/dashboard']">Dashboard</a>
+          </li>
+          <li>
+            <a [routerLink]="['/create']">Create</a>
+          </li>
+
+        </ol>
+      </div>
+      <h2 class="font-light m-b-xs">
+        Create
+      </h2>
+      <small>Create your own project and team!</small>
+    </div>
+  </div>
+</div>
+<div class="content">
+  <div style="margin-bottom:2%">
+
+  </div>
+  <div class="row text-center">
+    <div class="col-lg-6" style="height:385px">
+      <div class="hpanel hblue">
+        <div class="panel-body">
+          <h4>
+            <strong>Create</strong>
+          </h4>
+          <h4>
+            <strong>Your</strong>
+          </h4>
+          <br/>
+
+          <!--<span class="label label-info pull-right">NEW</span>-->
+          <button [routerLink]="['/projects/create']" type="button" class="btn btn-info btn-sm">PROJECT</button>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="col-lg-6" style="height:385px">
+      <div class="hpanel hyellow">
+        <div class="panel-body">
+          <h4>
+            <strong>Create</strong>
+          </h4>
+          <h4>
+            <strong>Your</strong>
+          </h4>
+          <br/>
+          <!--<span class="label label-info pull-right">NEW</span>-->
+          <button [routerLink]="['/teams/create']" type="button" class="btn btn-warning btn-sm">TEAM</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,106 @@
+<aside id="menu">
+  <div id="navigation">
+    <div class="profile-picture" *ngIf="ready">
+      <a [routerLink]="['/users', user.uid]">
+        <img src="assets/pdefault.jpg" class="img-circle m-b" alt="logo">
+      </a>
+
+      <div class="stats-label text-color">
+        <!--span class="font-extra-bold font-uppercase">Robert Razer</span-->
+        <div class="dropdown">
+          <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+            <span class="font-extra-bold font-uppercase">{{user.first}} {{user.last}}
+              <b class="caret"></b>
+            </span>
+          </a>
+          <ul class="dropdown-menu animated flipInX m-t-xs">
+
+            <li>
+              <a [routerLink]="['/users', user.uid]">My Profile</a>
+            </li>
+            <li>
+              <a [routerLink]="['/teams', user.tid]">My Team</a>
+            </li>
+            <li>
+              <a [routerLink]="['/projects/project-profile', user.uid]">My Project</a>
+            </li>
+
+            <li class="divider"></li>
+            <li>
+              <a href="login.html">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <ul class="nav" id="side-menu">
+      <li>
+        <a [routerLink]="['/dashboard']">
+          <span class="nav-label">Dashboard</span>
+
+        </a>
+      </li>
+      <li>
+        <a data-toggle="modal" data-target="#myModal">Create</a>
+        <!-- <a [routerLink]="['/create']">Create</a> -->
+      </li>
+      <li>
+        <a [routerLink]="['/search']">
+          <span class="nav-label">Search</span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/users']">
+          <span class="nav-label">Users</span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/projects']">
+          <span class="nav-label">Projects</span>
+        </a>
+      </li>
+      <li>
+        <a [routerLink]="['/teams']">
+          <span class="nav-label">Teams</span>
+        </a>
+      </li>
+
+      <!--<li>
+        <a [routerLink]="['/faq']">
+          <span class="nav-label">FAQ</span>
+        </a>
+      </li>-->
+    </ul>
+  </div>
+</aside>
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-hidden="true" *ngIf="ready">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="color-line"></div>
+      <div class="modal-header text-center">
+        <h4 class="modal-title">CREATE</h4>
+        <small *ngIf="user.uid > 0" class="font-bold">Please select the type you would like to create</small>
+        <small *ngIf="user.uid < 0" class="font-bold">Please comple your profile first!</small>
+      </div>
+      <div class="modal-body">
+        <div class="row text-center">
+          <div class="col-sm-6">
+
+            <button [disabled]="user.uid < 0"  [routerLink]="['/projects/create']" data-dismiss="modal" type="button" class="btn btn-info btn-lg">PROJECT</button>
+
+          </div>
+
+          <div class="col-sm-6">
+            <button [disabled]="user.tid > 0 || user.uid < 0" [routerLink]="['/teams/create']" data-dismiss="modal" type="button" class="btn btn-warning btn-lg">TEAM</button>
+          </div>
+        </div>
+      </div>
+      <!-- <div class="modal-footer">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+              <button type="button" class="btn btn-primary">Save changes</button>
+          </div> -->
+    </div>
+  </div>
+</div>

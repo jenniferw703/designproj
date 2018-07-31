@@ -1,0 +1,107 @@
+<div class="small-header ">
+    <div class="hpanel">
+        <div class="panel-body">
+
+
+            <div id="hbreadcrumb" class="pull-right">
+                <ol class="hbreadcrumb breadcrumb">
+                    <li>
+                        <a [routerLink]="['/dashboard']">Dashboard</a>
+                    </li>
+                    <li class="active">
+                        <span>Projects</span>
+                    </li>
+                </ol>
+            </div>
+            <h2 class="font-light m-b-xs">
+                Projects
+            </h2>
+        </div>
+    </div>
+</div>
+
+<div class="content">
+    <div style="margin-bottom:2%">
+        <div class="input-group">
+          <input id="search_str" onkeypress="if (event.which==13) document.getElementById('search_button').click()" [(ngModel)]="s_search"
+                 class="form-control" type="text" placeholder="Search projects by project id, supervisor name...">
+          <div class="input-group-btn">
+            <button id="search_button" (click)="str_filter()" class="btn btn-default">
+              <i class="fa fa-search"></i>
+            </button>
+          </div>
+        </div>
+    </div>
+
+    <div class="row projects" *ngIf="!data_to_render">
+        <div class="col-lg-12">
+
+          <div class="hpanel">
+            <div class="panel-body">
+              <button  class="btn btn-static"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...Please wait.</button>
+              <!-- <h3>Please wait while we are loading projects :)</h3>-->
+            </div>
+          </div>
+        </div>
+
+	</div>
+
+    <div class="row projects">
+        <div class="col-lg-6" style="height:385px" *ngFor='let project of data_to_render'>
+            <div class="hpanel hblue">
+                <div class="panel-body">
+                    <!--<span class="label label-info pull-right">NEW</span>-->
+                    <div class="row">
+                        <div class="col-sm-8">
+                            <h4>
+                                <a [routerLink]="['/projects', project.pid]">{{project.pid}}:</a>
+                                <br/>
+                                <a [routerLink]="['/projects', project.pid]">{{project.name}}</a>
+                            </h4>
+                        </div>
+                        <div class="col-sm-4 project-info">
+                            <div class="project-action m-t-md">
+                                <div class="btn-group">
+                                    <small  class="label label-danger ">
+                                        <i class="fa fa-thumbs-up"></i> {{project.liked_number}} </small>
+                                    <button [routerLink]="['/projects', project.pid]" class="btn btn-xs btn-default"> View</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-sm-12">
+                            <p>
+                                <b>
+                                    <span style="margin-right:3%" *ngFor="let area of project.areas"> {{area.label}} </span>
+                                </b>
+                            </p>
+                            <textarea disabled rows="6" style="border: none; resize:none; background-color:#FFFFFF; width: 100%">{{project.abs}}</textarea>
+                        </div>
+                        <div class="col-sm-8">
+                            <div class="row">
+                                <div class="col-sm-6">
+                                    <div class="project-label">CREATE BY</div>
+                                    <b>
+                                        <small>{{project.owner_role}}</small>
+                                    </b>
+                                    <br/>
+                                    <a [routerLink]="['/users', project.uid]"><small>{{project.owner_first_name}} {{project.owner_last_name}}</small></a>
+                                </div>
+
+                                <div class="col-sm-6">
+                                    <div class="project-label">Status</div>
+                                  <small *ngIf="project.status=='Open'" class="label label-success ">Open</small>
+                                  <small *ngIf="project.status == 'Closed'" class="label label-warnin">Closed</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    Last modified: {{project.modified | date:'yyyy-MM-dd@ h:m:s'}}
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

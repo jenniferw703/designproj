@@ -1,0 +1,33 @@
+<div class="color-line"></div>
+
+<div class="login-container" *ngIf="cred">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center m-b-md">
+                <h3>PLEASE LOGIN TO ECE496</h3>
+            </div>
+            <div class="hpanel">
+                <div class="panel-body">
+                    <form (ngSubmit)="submit()" #loginForm="ngForm">
+                        <div class="form-group">
+                            <label class="control-label" for="username">Username</label>
+                            <input [(ngModel)]='cred.username' type="text" placeholder="example@gmail.com" title="Please enter you username" required=""
+                                value="" name="username" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="password">Password</label>
+                            <input [(ngModel)]='cred.password' type="password" title="Please enter your password" placeholder="******" required="" value=""
+                                name="password" class="form-control">
+                        </div>
+                        <!-- <div class="form-group">
+                            <input type="checkbox" class="i-checks" checked> Remember login
+                            <p class="help-block small">(if this is a private computer)</p>
+                        </div> -->
+                        <button class="btn btn-success btn-block">Login</button>
+                        <a class="btn btn-default btn-block" [routerLink]="['/register']">Register</a>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

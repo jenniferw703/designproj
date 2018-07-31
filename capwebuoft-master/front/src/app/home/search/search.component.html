@@ -1,0 +1,283 @@
+<div class="small-header">
+  <div class="hpanel">
+    <div class="panel-body">
+
+      <div id="hbreadcrumb" class="pull-right">
+        <ol class="hbreadcrumb breadcrumb">
+          <li>
+            <a [routerLink]="['/dashboard']">Dashboard</a>
+          </li>
+          <li class="active">
+            <span>Search</span>
+          </li>
+        </ol>
+      </div>
+      <h2 class="font-light m-b-xs">
+        Search
+      </h2>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="row">
+    <div class="col-md-3">
+      <div class="hpanel">
+        <div class="panel-body">
+          <div class="m-b-md">
+            <h4>
+              Advanced Filters
+              <span class="pull-right text-right">
+                <div class="btn-group">
+                  <button class="btn btn-xs btn-default" (click)="clear_filter()"> Clear All</button>
+                  <!--<button class="btn btn-xs btn-default" (click)="setall_filter()"> Select All</button>-->
+                </div>
+              </span>
+            </h4>
+          </div>
+          <div class="form-group">
+            <label class="control-label">Only Show</label>
+            <br>
+            <div class="checkbox checkbox-success">
+              <input id="s_user" type="checkbox" [(ngModel)]="s_user">
+              <label for="s_user">
+                Users
+              </label>
+            </div>
+            <div class="checkbox checkbox-warning">
+              <input id="s_team" type="checkbox" [(ngModel)]="s_team">
+              <label for="s_team">
+                Teams
+              </label>
+            </div>
+            <div class="checkbox checkbox-info">
+              <input id="s_project" type="checkbox" [(ngModel)]="s_project">
+              <label for="s_project">
+                Projects
+              </label>
+            </div>
+          </div>
+          <!--
+          <div class="form-group">
+            <label class="control-label">Last activity</label>
+            <div class="input-daterange input-group" id="datepicker">
+              <input type="text" id="date_start" class="input-sm form-control">
+              <span class="input-group-addon ">
+                <i class="fa fa-angle-right"></i>
+              </span>
+              <input type="text" id="date_end" class="input-sm form-control">
+            </div>
+          </div>-->
+
+          <div *ngIf="s_team" class="form-group">
+            <label class="control-label">Team Size</label>
+            <div class="input-group">
+              <input id="teamsize" type="text">
+            </div>
+          </div>
+          <div *ngIf="s_project" class="form-group">
+            <label class="control-label">Group Size</label>
+            <div class="input-group">
+              <input id="projectsize" type="text">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="control-label">Status</label>
+            <div class="input-group">
+              <div class="checkbox checkbox-success">
+                <input id="s_available" type="checkbox" [(ngModel)]="s_available">
+                <label for="s_available">
+                  Open
+                </label>
+              </div>
+              <div class="checkbox checkbox-success">
+                <input id="s_complete" type="checkbox" [(ngModel)]="s_complete">
+                <label for="s_complete">
+                  Closed
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="control-label">Areas</label>
+            <div class="input-group">
+              <div *ngFor="let area of s_areas" class="checkbox checkbox-success">
+                <input type="checkbox" [(ngModel)]='area.value' [name]="area.tag_name">
+                <label> {{area.tag_name}} </label>
+              </div>
+            </div>
+          </div>
+
+          <button (click)="str_filter()" class="btn btn-success btn-block">Apply</button>
+
+        </div>
+
+      </div>
+
+    </div>
+    <div class="col-md-9">
+      <div class="row">
+        <div class="col-lg-12">
+          <div class="hpanel">
+            <div class="panel-body">
+              <div class="input-group">
+                <input id="search_str" onkeypress="if (event.which==13) document.getElementById('search_button').click()" [(ngModel)]="s_search"
+                  class="form-control" type="text" placeholder="Search users / teams / projects .. ">
+                <div class="input-group-btn">
+                  <button id="search_button" (click)="str_filter()" class="btn btn-default">
+                    <i class="fa fa-search"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-lg-12">
+
+          <div class="hpanel" *ngIf="!data_to_render">
+
+            <div class="col-md-12">
+
+              <div class="hpanel">
+                <div class="panel-body">
+                  <button class="btn btn-static">
+                    <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...Please wait.</button>
+                  <!--<h3>Please wait while we are loading :)</h3>-->
+                </div>
+              </div>
+            </div>
+
+          </div>
+          <div *ngFor="let item of data_to_render" class="hpanel filter-item">
+            <a *ngIf="item.uid" [routerLink]="['/users', item.uid]">
+              <div class="panel-body">
+                <div class="col-sm-8">
+                  <h4 *ngIf="item.name && item.pid" class="m-b-xs">
+                    <a [routerLink]="['/projects', item.pid]">{{item.name}}</a>
+                  </h4>
+                  <h4 *ngIf="item.name && !item.pid" class="m-b-xs">{{item.name}}</h4>
+                  <div style="word-wrap: break-word;">
+                    <small style="margin-right:1%" *ngFor='let tag of item.tags'>{{tag}}.</small>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="text-right">
+                    <small *ngIf="item.pid" class="stat-label">Last Modified: {{item.modified | date:'yyyy-MM-dd HH:mm'}}</small>
+                    <small *ngIf="!item.pid" class="stat-label">Last activity: {{item.modified_str | date:'yyyy-MM-dd HH:mm'}}</small>
+
+                    <div *ngIf="!item.pid" class="progress m-t-xs full progress-striped active">
+                      <div *ngIf="item.uid" [ngStyle]="{'width': item.status + '%'}" aria-valuemax="100" aria-valuemin="0" aria-valuenow="100"
+                        role="progressbar" class=" progress-bar" [ngClass]="{'progress-bar-success':item.uid}">
+                      </div>
+                      <div *ngIf="item.tid" [ngStyle]="{'width':  item.status + '%'}" aria-valuemax="100" aria-valuemin="0" aria-valuenow="100"
+                        role="progressbar" class=" progress-bar" [ngClass]="{'progress-bar-warning': item.tid}">
+                      </div>
+                    </div>
+
+
+                    <div *ngIf="item.pid">
+                      <small *ngIf="item.status=='Open'" class="label label-success ">Open</small>
+                      <small *ngIf="item.status == 'Closed'" class="label label-warning">Closed</small>
+                      <a [routerLink]="['/projects', item.pid]" class="btn btn-xs btn-default"> View</a>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a *ngIf="item.tid" [routerLink]="['/teams', item.tid]">
+              <div class="panel-body">
+                <div class="col-sm-8">
+                  <h4 *ngIf="item.name && item.pid" class="m-b-xs">
+                    <a [routerLink]="['/projects', item.pid]">{{item.name}}</a>
+                  </h4>
+                  <h4 *ngIf="item.name && !item.pid" class="m-b-xs">{{item.name}}</h4>
+                  <div style="word-wrap: break-word;">
+                    <small style="margin-right:1%" *ngFor='let tag of item.tags'>{{tag}}.</small>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="text-right">
+                    <small *ngIf="item.pid" class="stat-label">Last Modified: {{item.modified | date:'yyyy-MM-dd HH:mm'}}</small>
+                    <small *ngIf="!item.pid" class="stat-label">Last activity: {{item.modified_str | date:'yyyy-MM-dd HH:mm'}}</small>
+
+                    <div *ngIf="!item.pid" class="progress m-t-xs full progress-striped active">
+                      <div *ngIf="item.uid" [ngStyle]="{'width': item.status + '%'}" aria-valuemax="100" aria-valuemin="0" aria-valuenow="100"
+                        role="progressbar" class=" progress-bar" [ngClass]="{'progress-bar-success':item.uid}">
+                      </div>
+                      <div *ngIf="item.tid" [ngStyle]="{'width':  item.status + '%'}" aria-valuemax="100" aria-valuemin="0" aria-valuenow="100"
+                        role="progressbar" class=" progress-bar" [ngClass]="{'progress-bar-warning': item.tid}">
+                      </div>
+                    </div>
+
+
+                    <div *ngIf="item.pid">
+                      <small *ngIf="item.status=='Open'" class="label label-success ">Open</small>
+                      <small *ngIf="item.status == 'Closed'" class="label label-warning">Closed</small>
+                      <a [routerLink]="['/projects', item.pid]" class="btn btn-xs btn-default"> View</a>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </a>
+            <a *ngIf="item.pid" [routerLink]="['/projects', item.pid]">
+              <div class="panel-body">
+                <div class="col-sm-8">
+                  <h4 *ngIf="item.name && item.pid" class="m-b-xs">
+                    <a [routerLink]="['/projects', item.pid]">{{item.name}}</a>
+                  </h4>
+                  <h4 *ngIf="item.name && !item.pid" class="m-b-xs">{{item.name}}</h4>
+                  <div style="word-wrap: break-word;">
+                    <small style="margin-right:1%" *ngFor='let tag of item.tags'>{{tag}}.</small>
+                  </div>
+                </div>
+                <div class="col-sm-4">
+                  <div class="text-right">
+                    <small *ngIf="item.pid" class="stat-label">Last Modified: {{item.modified | date:'yyyy-MM-dd HH:mm'}}</small>
+                    <small *ngIf="!item.pid" class="stat-label">Last activity: {{item.modified_str | date:'yyyy-MM-dd HH:mm'}}</small>
+
+                    <div *ngIf="!item.pid" class="progress m-t-xs full progress-striped active">
+                      <div *ngIf="item.uid" [ngStyle]="{'width': item.status + '%'}" aria-valuemax="100" aria-valuemin="0" aria-valuenow="100"
+                        role="progressbar" class=" progress-bar" [ngClass]="{'progress-bar-success':item.uid}">
+                      </div>
+                      <div *ngIf="item.tid" [ngStyle]="{'width':  item.status + '%'}" aria-valuemax="100" aria-valuemin="0" aria-valuenow="100"
+                        role="progressbar" class=" progress-bar" [ngClass]="{'progress-bar-warning': item.tid}">
+                      </div>
+                    </div>
+
+
+                    <div *ngIf="item.pid">
+                      <small *ngIf="item.status=='Open'" class="label label-success ">Open</small>
+                      <small *ngIf="item.status == 'Closed'" class="label label-warning">Closed</small>
+                      <a [routerLink]="['/projects', item.pid]" class="btn btn-xs btn-default"> View</a>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+
+
+
+
+
+
+        </div>
+
+
+
+      </div>
+
+
+    </div>
+  </div>
+
+
+</div>

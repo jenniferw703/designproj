@@ -1,0 +1,70 @@
+<div class="small-header ">
+  <div class="hpanel">
+    <div class="panel-body">
+      <div id="hbreadcrumb" class="pull-right">
+        <ol class="hbreadcrumb breadcrumb">
+          <li>
+            <a [routerLink]="['/dashboard']">Dashboard</a>
+          </li>
+          <li class="active">
+            <span>Users</span>
+          </li>
+        </ol>
+      </div>
+      <h2 class="font-light m-b-xs">
+        Users
+      </h2>
+      <!-- <button class="btn btn-default btn-sm">Show Available Only</button> -->
+    </div>
+  </div>
+</div>
+
+
+
+
+<div class="content">
+  <div style="margin-bottom:2%">
+    <div class="input-group">
+      <input id="search_str" onkeypress="if (event.which==13) document.getElementById('search_button').click()" [(ngModel)]="s_search" class="form-control" type="text" placeholder="">
+      <div class="input-group-btn">
+        <button id="search_button" (click)="str_filter()" class="btn btn-default">
+          <i class="fa fa-search"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="content" *ngIf="!data_to_render">
+    <div class="row">
+
+      <div class="col-md-12">
+
+        <div class="hpanel">
+          <div class="panel-body">
+            <button  class="btn btn-static"><span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...Please wait.</button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="row">
+    <div class="col-lg-3" *ngFor="let user of data_to_render">
+      <div class="hpanel  contact-panel">
+        <div class="panel-body">
+          <small *ngIf="user.status < 100" class="label label-success pull-right">AVAILABLE</small>
+          <!-- <img alt="logo" class="img-circle m-b" src="assets/profile.jpg"> -->
+          <h3 style="margin-top:2%">
+            <a [routerLink]="['/users', user.uid]"> {{user.first}} {{user.last}}</a>
+          </h3>
+          <div class="text-muted font-bold m-b-xs">{{user.email}}</div>
+          <!-- <p>
+            <span style="margin-right:3%" *ngFor="let tag of user.tags"> #{{tag}} </span>
+          </p> -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

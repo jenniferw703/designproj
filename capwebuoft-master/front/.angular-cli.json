@@ -1,0 +1,106 @@
+{
+  "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
+  "project": {
+    "name": "capweb"
+  },
+  "apps": [
+    {
+      "root": "src",
+      "outDir": "dist",
+      "assets": [
+        "assets",
+        "favicon.ico"
+      ],
+      "index": "index.html",
+      "main": "main.ts",
+      "polyfills": "polyfills.ts",
+      "test": "test.ts",
+      "tsconfig": "tsconfig.app.json",
+      "testTsconfig": "tsconfig.spec.json",
+      "prefix": "app",
+      "styles": [
+        "styles.css",
+        "../homer/vendor/fontawesome/css/font-awesome.css",
+        "../homer/vendor/metisMenu/dist/metisMenu.css",
+        "../homer/vendor/animate.css/animate.css",
+        "../homer/vendor/bootstrap/dist/css/bootstrap.css",
+        "../homer/vendor/select2-3.5.2/select2.css",
+        "../homer/vendor/select2-bootstrap/select2-bootstrap.css",
+        "../homer/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.css",
+        "../homer/vendor/bootstrap-datepicker-master/dist/css/bootstrap-datepicker3.min.css",
+        "../homer/vendor/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox.css",
+        "../homer/vendor/summernote/dist/summernote.css",
+        "../homer/vendor/datatables.net-bs/css/dataTables.bootstrap.min.css",
+        "../homer/fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css",
+        "../homer/fonts/pe-icon-7-stroke/css/helper.css",
+        "../homer/vendor/sweetalert/lib/sweet-alert.css",
+        "../homer/styles/style.css"
+      ],
+      "scripts": [
+        "../homer/vendor/jquery/dist/jquery.min.js",
+        "../homer/vendor/jquery-ui/jquery-ui.min.js",
+        "../homer/vendor/slimScroll/jquery.slimscroll.min.js",
+        "../homer/vendor/bootstrap/dist/js/bootstrap.min.js",
+        "../homer/vendor/jquery-flot/jquery.flot.js",
+        "../homer/vendor/jquery-flot/jquery.flot.resize.js",
+        "../homer/vendor/jquery-flot/jquery.flot.pie.js",
+        "../homer/vendor/flot.curvedlines/curvedLines.js",
+        "../homer/vendor/jquery.flot.spline/index.js",
+        "../homer/vendor/metisMenu/dist/metisMenu.min.js",
+        "../homer/vendor/iCheck/icheck.min.js",
+        "../homer/vendor/peity/jquery.peity.min.js",
+        "../homer/vendor/sparkline/index.js",
+        "../homer/scripts/charts.js",
+        "../homer/vendor/moment/moment.js",
+        "../homer/vendor/select2-3.5.2/select2.min.js",
+        "../homer/vendor/bootstrap-touchspin/dist/jquery.bootstrap-touchspin.min.js",
+        "../homer/vendor/bootstrap-datepicker-master/dist/js/bootstrap-datepicker.min.js",
+        "../homer/vendor/datatables/media/js/jquery.dataTables.min.js",
+        "../homer/vendor/datatables.net-bs/js/dataTables.bootstrap.min.js",
+        "../homer/vendor/pdfmake/build/pdfmake.min.js",
+        "../homer/vendor/pdfmake/build/vfs_fonts.js",
+        "../homer/vendor/datatables.net-buttons/js/buttons.html5.min.js",
+        "../homer/vendor/datatables.net-buttons/js/buttons.print.min.js",
+        "../homer/vendor/datatables.net-buttons/js/dataTables.buttons.min.js",
+        "../homer/vendor/datatables.net-buttons-bs/js/buttons.bootstrap.min.js",
+        "../homer/vendor/jquery-validation/jquery.validate.min.js",
+        "../homer/vendor/summernote/dist/summernote.min.js",
+        "../homer/vendor/sweetalert/lib/sweet-alert.min.js",
+        "../homer/scripts/homer.js"        
+      ],
+      "environmentSource": "environments/environment.ts",
+      "environments": {
+        "dev": "environments/environment.ts",
+        "prod": "environments/environment.prod.ts"
+      }
+    }
+  ],
+  "e2e": {
+    "protractor": {
+      "config": "./protractor.conf.js"
+    }
+  },
+  "lint": [
+    {
+      "project": "src/tsconfig.app.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "src/tsconfig.spec.json",
+      "exclude": "**/node_modules/**"
+    },
+    {
+      "project": "e2e/tsconfig.e2e.json",
+      "exclude": "**/node_modules/**"
+    }
+  ],
+  "test": {
+    "karma": {
+      "config": "./karma.conf.js"
+    }
+  },
+  "defaults": {
+    "styleExt": "css",
+    "component": {}
+  }
+}

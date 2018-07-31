@@ -1,0 +1,28 @@
+{
+    "uid": 114477,
+    "first": "Khoman",
+    "last": "Phang",
+    "name": "Owen Chan",
+    "branch": "Computer Engineering",
+    "about": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum tincidunt est vitae ultrices accumsan.",
+    "tag": "Angular NodeJs Phython",
+    "tags": [
+        "Angular",
+        "NodeJs",
+        "Phython"
+    ],
+    "areas": [
+        {
+            "tag_name": "Database",
+            "value": true
+        },
+        {
+            "tag_name": "Software",
+            "value": true
+        }
+    ],
+    "status": 100,
+    "views": 300,
+    "pcreated": [2017668,2017571],
+    "pliked": [2017501,2017668,2017505]
+}

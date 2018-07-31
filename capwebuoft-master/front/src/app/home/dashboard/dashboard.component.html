@@ -1,0 +1,124 @@
+<div class="content">
+    <div class="row">
+        <div class="col-lg-12 text-center welcome-message">
+            <h2>
+                Welcome to ECE496
+            </h2>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="hpanel">
+                <div class="panel-heading">
+                    <div class="panel-tools">
+                    </div>
+                    Discover Projects, Users and Teams
+                </div>
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-md-4 text-center">
+                            <div class="hpanel hbgblue">
+                                <div class="panel-body">
+                                    <div class="text-center">
+                                        <h3 [routerLink]="['../projects']">Available Projects</h3>
+                                        <p class="text-big font-light">
+                                            {{project_total}}
+                                        </p>
+
+                                        <p class="btn-group">
+                                            <button [routerLink]="['../projects']" class="btn btn-xs btn-default">View </button>
+                                        </p>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="hpanel hbggreen">
+                                <div class="panel-body">
+                                    <div class="text-center">
+                                        <h3>Available Users</h3>
+                                        <p class="text-big font-light">
+                                            {{user_total}}
+                                        </p>
+                                        <p class="btn-group">
+                                            <button [routerLink]="['../users']" class="btn btn-xs btn-default">View </button>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="hpanel hbgyellow">
+                                <div class="panel-body">
+                                    <div class="text-center">
+                                        <h3>Available Teams</h3>
+                                        <p class="text-big font-light">
+                                            {{team_total}}
+                                        </p>
+                                        <p class="btn-group">
+                                            <button [routerLink]="['../teams']" class="btn btn-xs btn-default">View </button>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <div class="panel-footer">
+                    <!-- <span class="pull-right">
+                          You have two new messages from <a href="">Monica Bolt</a>
+                    </span> -->
+                    Last update: {{date | date:'yyyy-MM-dd HH:mm'}}
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="hpanel">
+                <div *ngIf="timeline_ready" class="v-timeline vertical-container animate-panel" data-child="vertical-timeline-block" data-delay="1">
+                    <div class="vertical-timeline-block">
+                        <div class="vertical-timeline-icon navy-bg">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <div class="vertical-timeline-content">
+                            <div class="p-sm">
+                                <form action="#" id="dashboardForm">
+                                    <div class="row">
+                                        <div class="form-group col-lg-11">
+                                            <input id="tlcontent" type="text" class="form-control">
+                                        </div>
+                                        <div class="col-lg-1 text-center">
+                                            <button (click)="post_timeline()" class="btn btn-info btn-outline">Post</button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="vertical-timeline-block" *ngFor="let item of timeline">
+                        <div class="vertical-timeline-icon navy-bg">
+                            <i class="fa fa-calendar"></i>
+                        </div>
+                        <div class="vertical-timeline-content">
+                            <div class="p-sm">
+                                <span class="vertical-date pull-right">
+                                    <small>{{item.created | date:'yyyy-MM-dd@ h:m:s'}}</small>
+                                </span>
+
+                                <h2>{{item.owner.user.first_name}} {{item.owner.user.last_name}}</h2>
+                                <p>
+                                    {{item.content}}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

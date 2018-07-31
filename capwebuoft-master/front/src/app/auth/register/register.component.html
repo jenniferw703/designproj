@@ -1,0 +1,71 @@
+
+<div class="register-container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="text-center m-b-md">
+                <h3>Registration</h3>
+            </div>
+            <div class="hpanel">
+                <div class="panel-body">
+                    <form [formGroup]="form" (ngSubmit)="onSubmit()">
+                        <div class="row">
+                            <div class="form-group col-lg-12">
+                                <label>First name</label>
+                                <div class="alert alert-danger" *ngIf="(form.get('first').touched || form.get('first').dirty) && form.get('first').errors">
+                                    <div *ngIf="form.get('first').errors.required">Please enter your first name</div>
+                                </div>
+                                <input type="text" class="form-control" id="first" formControlName="first" [formGroup]="form" />
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label>Last name</label>
+                                <div class="alert alert-danger" *ngIf="(form.get('last').touched || form.get('last').dirty) && form.get('last').errors">
+                                    <div *ngIf="form.get('last').errors.required">Please enter your last name</div>
+                                </div>
+                                <input type="text" class="form-control" id="last" formControlName="last" [formGroup]="form" />
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label>Email Address</label>
+                                <div class="alert alert-danger" *ngIf="(form.get('email').touched || form.get('email').dirty) && form.get('email').errors">
+                                    <div *ngIf="form.get('email').errors.required">Please enter your email address</div>
+                                    <div *ngIf="form.get('email').errors.pattern">Please enter a valid email address</div>
+                                </div>
+                                <input type="email" class="form-control" id="email" formControlName="email" [formGroup]="form" />
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label>Password</label>
+                                <div class="alert alert-danger" *ngIf="(form.get('password').touched || form.get('password').dirty) && form.get('password').errors">
+                                    <div *ngIf="form.get('password').errors.required">Please enter your password</div>
+                                    <div *ngIf="form.get('password').errors.minlength">Please enter a password with at least 8 characters</div>
+                                </div>
+                                <input type="password" class="form-control" id="password" formControlName="password" [formGroup]="form" />
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <label>Confirm Password</label>
+                                <div class="alert alert-danger" *ngIf="(form.controls.confirmPassword.touched || form.controls.confirmPassword.dirty) && form.get('confirmPassword').errors ">
+                                    <div *ngIf="form.controls.confirmPassword.errors?.required">Please re-enter your password</div>
+                                    <div *ngIf="form.controls.confirmPassword.errors?.checkPwd">Password not match</div>
+                                </div>
+                                <input type="password" class="form-control" id="confirmPassword" formControlName="confirmPassword" [formGroup]="form" />
+                            </div>
+                            <div class="form-group col-lg-12">
+                                <div class="alert alert-danger" *ngIf="form.controls.role.touched && form.get('role').errors">Please select your role</div>
+                                <label>I am a </label>
+                                <br>
+                                <label class="radio-inline">
+                                    <input type="radio" id="roleid2" value="2" formControlName="role"> Student </label>
+                                <label class="radio-inline">
+                                    <input type="radio" id="roleid1" value="1" formControlName="role"> Supervisor </label>
+                            </div>
+                        </div>
+                        <div class="text-center">
+                            <button class="btn btn-success" type="submit" [disabled]="!form.valid">Register</button>
+                            <button class="btn btn-default" [routerLink]="['/login']">Cancel</button>
+                        </div>
+
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

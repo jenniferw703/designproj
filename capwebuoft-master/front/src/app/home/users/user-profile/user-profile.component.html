@@ -1,0 +1,383 @@
+<div class="small-header ">
+  <div class="hpanel">
+    <div class="panel-body">
+      <div id="hbreadcrumb" class="pull-right">
+        <ol class="hbreadcrumb breadcrumb">
+          <li>
+            <a [routerLink]="['/dashboard']">Dashboard</a>
+          </li>
+          <li class="active">
+            <span>
+              Profile
+            </span>
+          </li>
+        </ol>
+      </div>
+      <h2 class="font-light m-b-xs">
+        Profile
+      </h2>
+    </div>
+  </div>
+</div>
+
+<div class="content" *ngIf="!user">
+  <div class="row">
+
+    <div class="col-md-12">
+
+      <div class="hpanel">
+        <div class="panel-body">
+          <button class="btn btn-static">
+            <span class="glyphicon glyphicon-refresh glyphicon-refresh-animate"></span> Loading...Please wait.</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<div class="content">
+
+  <div class="row" *ngIf="user">
+    <div class="col-lg-12">
+      <div class="hpanel hgreen">
+        <div class="panel-body">
+          <div class="pull-right text-right">
+
+            <!-- <div class="project-info">
+              <div class="project-value">
+                <h2 class="text-success">
+                  {{user.views}} Views
+                </h2>
+              </div>
+            </div> -->
+
+            <div class="btn-group">
+              <button *ngIf="uid == user.uid" class="btn btn-xs btn-default" [routerLink]="['/users', user.uid, 'edit']"> Edit</button>
+            </div>
+
+          </div>
+          <!-- <img alt="logo" class="img-circle m-b m-t-md" src="assets/profile.jpg"> -->
+
+          <h3>
+            <a href="">{{user.first}} {{user.last}}</a>
+          </h3>
+          <div class="text-muted font-bold m-b-xs">{{user.branch}}</div>
+          <div style="word-wrap: break-word;margin-bottom:1%">
+            <small style="margin-right:3%" *ngFor='let tag of user.tags'>{{tag}}</small>
+
+          </div>
+          <p>
+            <span class="text-muted font-bold m-b-xs"> Areas</span>
+            <br>
+            <span style="margin-right:2%" *ngFor='let area of user.areas'>{{area.tag_name}}</span>
+          </p>
+          <!-- <div class="progress m-t-xs full progress-small"> -->
+          <div class="progress m-t-xs full progress-striped active">
+            <div [ngStyle]="{'width': user_status + '%'}" aria-valuemax="100" aria-valuemin="0" aria-valuenow="user_status" role="progressbar"
+              class=" progress-bar progress-bar-success">
+            </div>
+          </div>
+
+
+        </div>
+
+        <!-- <div class="panel-footer contact-footer">
+            <div class="row">
+              <div class="col-md-6 border-right">
+                <div class="contact-stat">
+                  <span>{{user.status}}</span>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="contact-stat">
+                  <span>
+                    <strong>{{user.views}}</strong> views
+                  </span>
+
+                </div>
+              </div>
+            </div>
+          </div> -->
+        <!-- <div class="panel-body">
+            <p>
+              {{user.about}}
+            </p>
+          </div> -->
+
+
+      </div>
+    </div>
+
+    <div class="col-lg-12">
+      <div class="hpanel">
+        <div class="hpanel">
+
+          <ul class="nav nav-tabs">
+            <li class="active">
+              <a data-toggle="tab" href="#tab-1">General</a>
+            </li>
+            <li class="">
+              <a data-toggle="tab" href="#tab-2">Interested Projects</a>
+            </li>
+            <li *ngIf="recommandu.length!=0" class="">
+              <a data-toggle="tab" href="#tab-3">Similar Users</a>
+            </li>
+          </ul>
+          <div class="tab-content">
+            <div id="tab-1" class="tab-pane active">
+              <div class="panel-body">
+
+                <div class="col-lg-12" *ngIf="user.about">
+                  <div class="row projects">
+                    <div class="hpanel hgreen">
+                      <div class="panel-body">
+                        <div class="row">
+                          <div  class="col-sm-12">
+                            <p>
+                              <span class="text-muted font-bold m-b-xs">About me</span>
+                              <br>
+                              <br> {{user.about}}
+                            </p>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-lg-12">
+                  <div class="row projects">
+                    <div *ngIf="user.team != null" class="hpanel hyellow">
+                      <div class="panel-body">
+                        <div class="row">
+                          <div class="col-sm-8">
+                            <h4>
+                              <a [routerLink]="['/teams', user.team.pk]"> {{user.team.name}}</a>
+                            </h4>
+                            <!--<div style="word-wrap: break-word;margin-bottom:5%">
+                              <small style="margin-right:3%" *ngFor="let tag of user.team.tags"> {{tag}} </small>
+                            </div>-->
+                            <div class="row">
+
+                              <div class="col-sm-12">
+                                <p>
+                                  <span class="text-muted font-bold m-b-xs">Team focal areas</span>
+                                  <br>
+                                  <span style="margin-right:2%" *ngFor='let area of user.team.related_areas'>{{area.tag_name}}</span>
+                                </p>
+                              </div>
+                            </div>
+                            <div class="row">
+
+                              <div class="col-sm-12">
+                                <div class="project-label">Progress</div>
+                                <div class="progress m-t-xs full progress-striped active">
+                                  <div style="width: 100%" aria-valuemax="100" aria-valuemin="0" aria-valuenow="100" role="progressbar" class=" progress-bar progress-bar-warning">
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="col-sm-4 project-info">
+                            <div class="col-sm-12">
+                              <div class="project-label">Initiator</div>
+                              <small>{{user.team.owner.user.first_name}} {{user.team.owner.user.last_name}}</small>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+
+
+                  </div>
+                </div>
+
+
+                <div *ngIf="user.projects" class="col-lg-12">
+                  <div class="row projects" *ngFor="let proj of user.projects">
+                    <div class="hpanel hblue">
+                      <div class="panel-body">
+                        <div class="row">
+                          <div class="col-sm-8">
+                            <h4>
+                              <a [routerLink]="['/projects', proj.project_id]"> {{proj.project_title}}</a>
+                            </h4>
+                            <div class="row">
+                              <div class="col-sm-12">
+                                <p>
+                                  <span class="text-muted font-bold m-b-xs">Project focal areas</span>
+                                  <br>
+                                  <span style="margin-right:2%" *ngFor='let area of proj.related_areas'>{{area}}</span>
+                                </p>
+                              </div>
+                            </div>
+                            <p>
+                              <span class="text-muted font-bold m-b-xs">Description</span>
+                              <br> {{proj.project_short_description}}
+                            </p>
+                          </div>
+                          <div class="col-sm-4 project-info">
+
+                            <div class="row">
+                              <div class="col-sm-9">
+                                <div class="project-label">Initiator</div>
+                                <small>{{proj.created_by.first_name}} {{proj.created_by.last_name}}</small>
+                              </div>
+
+                              <div class="col-sm-3">
+                                <div class="project-label">Status</div>
+                                <small *ngIf="proj.project_status=='Open'" class="label label-success ">OPEN</small>
+                                <small *ngIf="proj.project_status == 'Closed'" class="label label-warning ">Closed</small>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+
+
+                <!-- <div *ngIf="!user.project" class="col-lg-12">
+                  <div class="row projects">
+                    <div class="hpanel hblue">
+                      <div class="panel-body">
+                        <div class="row">
+                          <span>Your Project:</span>
+                          <button [routerLink]="['/projects']" class="btn btn-xs btn-default">View </button>
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div> -->
+
+
+
+
+                <div class="col-lg-12" *ngIf="user.experiences.length!==0">
+                  <div class="row projects">
+                    <div class="hpanel hviolet">
+                      <div class="panel-body ">
+                        <div class="row">
+                          <div class="col-sm-12">
+                            <h4>Experiences</h4>
+
+                            <div class="table-responsive">
+                              <table class="table  table-hover">
+                                <thead>
+                                  <tr>
+                                    <th>Company</th>
+                                    <th>Title</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                  <tr *ngFor="let exp of user.experiences">
+                                    <td>{{exp.company}}</td>
+                                    <td>{{exp.title}}</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div id="tab-2" class="tab-pane">
+              <div class="panel-body">
+                <div class="col-lg-12">
+                  <div *ngIf="likedp.length == 0">
+                    No interested projects yet.
+                  </div>
+                  <div class="row projects">
+                    <div class="hpanel hblue" *ngFor='let proj of likedp'>
+                      <div class="panel-body">
+                        <div class="row">
+                          <div class="col-sm-8">
+                            <h4>
+                              <a [routerLink]="['/projects', proj.pid]"> {{proj.name}}</a>
+                            </h4>
+
+                            <p>
+                              {{proj.abs}}
+                            </p>
+
+
+                          </div>
+                          <div class="col-sm-4 project-info">
+                            <div class="row">
+                              <div class="col-sm-9">
+                                <div class="project-label">Initiator</div>
+                                <small>{{proj.owner_first_name}} {{proj.owner_last_name}}</small>
+                              </div>
+                              <div class="col-sm-3">
+                                <div class="project-label">Status</div>
+                                <small *ngIf="proj.status=='Open'" class="label label-success ">OPEN</small>
+                                <small *ngIf="proj.status == 'Closed'" class="label label-warning ">Closed</small>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+
+            <div id="tab-3" class="tab-pane">
+              <div class="hpanel">
+                <div class="panel-body">
+                  <!--projects-->
+                  <div *ngIf="!hasreco">
+                    There is no one like this person! So special!
+                  </div>
+                  <div *ngIf="hasreco">
+                    <div class="hpanel hgreen" *ngFor='let u of recommandu'>
+                      <div class="panel-body">
+                        <div class="pull-right">
+                          <!-- button class="btn btn-success btn-xs">{{proj.status}}</button-->
+                          <button (click)="reload()" [routerLink]="['/users', u.uid]" class="btn btn-xs btn-default"> View</button>
+
+                        </div>
+                        <h3 class="m-t-none">
+                          <a (click)="reload()" [routerLink]="['/users', u.uid]">{{u.name}}</a>
+                        </h3>
+                        <div>
+                          <span>contact: {{u.email}}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+            </div>
+
+          </div>
+
+
+        </div>
+      </div>
+
+
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,41 @@
+
+button  {
+  position: relative;
+}
+
+.dislike {
+  position: absolute;
+  top: 100%;
+  left: 75%;
+  width: 100%;
+  content: attr(title);
+  color: #000;
+  line-height: 1.4em;
+  border: 1px solid #000;
+}
+
+.glyphicon-refresh-animate {
+  -animation: spin .7s infinite linear;
+  -webkit-animation: spin2 .7s infinite linear;
+}
+
+@-webkit-keyframes spin2 {
+  from { -webkit-transform: rotate(0deg);}
+  to { -webkit-transform: rotate(360deg);}
+}
+
+@keyframes spin {
+  from { transform: scale(1) rotate(0deg);}
+  to { transform: scale(1) rotate(360deg);}
+}
+
+.btn-static {
+  background-color: white;
+  border: 1px solid white;
+  cursor: default;
+}
+.btn-static:active {
+  -moz-box-shadow:    inset 0 0 0px white;
+  -webkit-box-shadow: inset 0 0 0px white;
+  box-shadow:         inset 0 0 0px white;
+}

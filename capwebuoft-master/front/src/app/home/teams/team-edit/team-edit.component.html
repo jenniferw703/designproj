@@ -1,0 +1,100 @@
+<div class="small-header">
+  <div class="hpanel">
+    <div class="panel-body">
+      <div id="hbreadcrumb" class="pull-right">
+        <ol class="hbreadcrumb breadcrumb">
+          <li>
+            <a [routerLink]="['/dashboard']">Dashboard</a>
+          </li>
+          <li>
+            <span>Teams</span>
+          </li>
+          <li class="active">
+            <span>Edit</span>
+          </li>
+        </ol>
+      </div>
+      <h2 class="font-light m-b-xs">
+        Edit my team
+      </h2>
+    </div>
+  </div>
+</div>
+
+<div class="content">
+
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="hpanel">
+
+        <div *ngIf="ready" class="panel-body">
+
+          <form #teamForm="ngForm">
+
+            <div class="p-m tab-pane">
+              <div class="row">
+                <div class="col-lg-12">
+                  <div class="row">
+                    <div class="form-group col-lg-12" [ngClass]="{'has-error': (v_tname.touched || v_tname.dirty) && !v_tname.valid}">
+                      <label>Team Name *</label>
+                      <span class="text-danger" *ngIf="(v_tname.touched || v_tname.dirty) && v_tname.errors?.required">
+                        <i class="fa fa-exclamation-triangle"></i> Please enter a team name</span>
+                      <span class="text-danger" *ngIf="(v_tname.touched || v_tname.dirty) && v_tname.errors?.minlength">
+                        <i class="fa fa-exclamation-triangle"></i> Please enter minimum 2 character</span>
+                      <input #v_tname="ngModel" required minlength="2" [(ngModel)]='team.name' type="text" class="form-control" placeholder="Be something cool"
+                        name="name">
+                    </div>
+                    <div class="form-group col-lg-6">
+                      <label>Team ID</label>
+                      <input type="text" [(ngModel)]='team.pk' [readonly]="inpudisable" class="form-control" placeholder="Team ID" name="tid">
+                    </div>
+                    <div class="form-group col-lg-6">
+                      <label>Magic Token</label>
+                      <input type="text" [(ngModel)]='team.magictoken'  class="form-control" placeholder="Magic token"
+                        name="magictoken">
+                    </div>
+                    <div class="form-group col-lg-6" [ngClass]="{'has-error': (v_temail.touched || v_temail.dirty) && !v_temail.valid}">
+                      <label>Contact Email *</label>
+                      <span class="text-danger" *ngIf="(v_temail.touched || v_temail.dirty) && v_temail.errors?.required">
+                        <i class="fa fa-exclamation-triangle"></i> Please enter a contact email</span>
+                      <span class="text-danger" *ngIf="(v_temail.touched || v_temail.dirty) && v_temail.errors?.pattern">
+                        <i class="fa fa-exclamation-triangle"></i> Please input a valid email address</span>
+                      <input #v_temail="ngModel" required [pattern]="email_pattern" type="email" [(ngModel)]='team.email' class="form-control"
+                        placeholder="user@email.com" name="email">
+                    </div>
+                    <div class="form-group col-lg-6">
+                      <label>Cloud {{team.cloud}}</label>
+                      <input type="text" id="" [(ngModel)]='team.cloud' class="form-control" placeholder="Github / Dropbox / Google Doc" name="cloud">
+                    </div>
+                    <div class="form-group col-lg-12" *ngIf="ready">
+                      <label class="control-label">Interested Areas</label>
+                      <br>
+                      <div *ngFor="let area of team.areas" class="col-lg-3">
+                        <div class="checkbox checkbox-warning checkbox-inline">
+                          <input type="checkbox" [(ngModel)]='area.value' [name]="area.tag_name">
+                          <label> {{area.tag_name}} </label>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-lg-12">
+                      <div class="hpanel">
+                        <label>Description</label>
+                        <div class="summernote"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="text-right m-t-xs">
+              <a class="btn btn-warning" [ngClass]="{'disabled':!teamForm.valid}" (click)="save()">Submit</a>
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

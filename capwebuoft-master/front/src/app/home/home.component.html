@@ -1,0 +1,15 @@
+<app-nav-bar *ngIf='app_ready'></app-nav-bar>
+
+<!-- Wrapper-->
+<div id="wrapper" *ngIf='app_ready'>
+    <app-side-bar></app-side-bar>
+    <router-outlet></router-outlet>
+    <!-- Footer-->
+    <footer class="footer">
+        <span class="pull-right">
+            ECE496
+        </span>
+
+    </footer>
+
+</div>
